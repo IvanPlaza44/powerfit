@@ -36,7 +36,9 @@ public class ProductServiceImpl implements ProductService {
         // Validación de categoría
         Category category = categoryRepository.findById(request.getCategoryId()) // Corregido el nombre del getter
                 .orElseThrow(() -> new RuntimeException("Category not found"));
-
+        if (!productRepository.findByName(request.getName()).isEmpty()) {
+            throw new RuntimeException("Product already exists with this name");
+}
         Product product = new Product();
         product.setName(request.getName());
         product.setDescription(request.getDescription());

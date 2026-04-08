@@ -2,6 +2,7 @@ package com.uade.tpo.repository;
 
 import java.util.List;
 
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,4 +20,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("select p from Product p where p.name like %?1% and p.stock > 0")
     List<Product> findByName(String name);
+
+    //  Filtrado por categoría
+    @Query("SELECT p FROM Product p WHERE p.category.id = ?1 AND p.stock > 0")
+    Page<Product> findByCategoryId(Long categoryId, Pageable pageable);
 }
