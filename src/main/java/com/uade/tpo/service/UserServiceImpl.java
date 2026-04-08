@@ -15,7 +15,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User registerUser(UserRegistrationDTO registrationDTO) {
         User user = new User();
-        // Corregido: ahora usamos registrationDTO que es el nombre del parámetro
+        
         user.setUsername(registrationDTO.getUsername());
         user.setEmail(registrationDTO.getEmail());
         user.setPassword(registrationDTO.getPassword()); 

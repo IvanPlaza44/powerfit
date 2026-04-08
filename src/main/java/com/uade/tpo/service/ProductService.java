@@ -13,7 +13,7 @@ public interface ProductService {
 
     public Optional<Product> getProductById(Long productId);
 
-    public Product createProduct(ProductRequest productRequest); //agregar manejo de error por si hay duplicados!!!!!
+    public Product createProduct(ProductRequest productRequest);
 
     public Product updateProduct(Long id, ProductRequest productRequest);
 

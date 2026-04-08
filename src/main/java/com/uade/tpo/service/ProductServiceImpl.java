@@ -24,7 +24,6 @@ public class ProductServiceImpl implements ProductService {
     private CategoryRepository categoryRepository;
 
     public Page<Product> getProducts(PageRequest pageable) {
-        // Cambiamos findAll por nuestro nuevo método para cumplir la consigna de stock
         return productRepository.findAvailableProducts(pageable);
     }
 
@@ -34,10 +33,10 @@ public class ProductServiceImpl implements ProductService {
 
     public Product createProduct(ProductRequest request) {
         // Validación de categoría
-        Category category = categoryRepository.findById(request.getCategoryId()) // Corregido el nombre del getter
-                .orElseThrow(() -> new RuntimeException("Category not found"));
+        Category category = categoryRepository.findById(request.getCategoryId()) 
+                .orElseThrow(() -> new RuntimeException("Categoria no encontrada"));
         if (!productRepository.findByName(request.getName()).isEmpty()) {
-            throw new RuntimeException("Product already exists with this name");
+            throw new RuntimeException("Ya existe el producto con ese nombre");
 }
         Product product = new Product();
         product.setName(request.getName());
@@ -62,7 +61,7 @@ public class ProductServiceImpl implements ProductService {
             product.setDiscount(request.getDiscount());
             product.setImage(request.getImage());
             return productRepository.save(product);
-        }).orElseThrow(() -> new RuntimeException("Product not found"));
+        }).orElseThrow(() -> new RuntimeException("Producto no encontrado"));
     }
 
     @Override
