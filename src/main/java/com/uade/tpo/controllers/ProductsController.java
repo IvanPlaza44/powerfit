@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import com.uade.tpo.entity.Product;
 import com.uade.tpo.entity.dto.ProductRequest;
+import com.uade.tpo.exceptions.CategoryNotFoundException;
+import com.uade.tpo.exceptions.ProductDuplicateException;
+import com.uade.tpo.exceptions.ProductNotFoundException;
 import com.uade.tpo.service.ProductService;
 
 @RestController
@@ -41,21 +44,22 @@ public class ProductsController {
 
     // Crear un producto
     @PostMapping
-    public ResponseEntity<Product> createProduct(@RequestBody ProductRequest productRequest) {
+    public ResponseEntity<Product> createProduct(@RequestBody ProductRequest productRequest) throws ProductDuplicateException, CategoryNotFoundException {
         Product result = productService.createProduct(productRequest);
         return ResponseEntity.created(URI.create("/products/" + result.getId())).body(result);
     }
 
     // Actualizar un producto
     @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody ProductRequest productRequest) {
+    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody ProductRequest productRequest) throws ProductNotFoundException {
         return ResponseEntity.ok(productService.updateProduct(id, productRequest));
     }
 
     // Eliminar un producto
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
-        productService.deleteProduct(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<String> deleteProduct(@PathVariable Long id) throws ProductNotFoundException{
+        String message = productService.deleteProduct(id);
+        return ResponseEntity.ok(message);
+        
     }
 }

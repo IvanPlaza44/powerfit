@@ -27,18 +27,10 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
-    // Constructor vacío necesario para JPA
-    public User() {
-    }
-
-    // Constructor manual útil para el Service
-    public User(String username, String password, String email) {
-        this.username = username;
-        this.password = password;
-        this.email = email;
-    }
-
+    @Column(nullable = false)
     private String firstName;
+
+    @Column
     private String lastName;
 
     @Enumerated(EnumType.STRING)

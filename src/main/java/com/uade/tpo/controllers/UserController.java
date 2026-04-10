@@ -1,21 +1,23 @@
 package com.uade.tpo.controllers;
 
 import com.uade.tpo.entity.User;
-import com.uade.tpo.entity.dto.UserRegistrationDTO;
+import com.uade.tpo.entity.dto.UserRequest;
 import com.uade.tpo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 public class UserController {
+
+
     @Autowired
     private UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody UserRegistrationDTO userDto) {
-        return ResponseEntity.ok(userService.registerUser(userDto));
+    public ResponseEntity<User> register(@RequestBody UserRequest user) {
+        return ResponseEntity.ok(userService.registerUser(user));
 }
 
     @PostMapping("/login")

@@ -29,8 +29,7 @@ public class FavoritesController {
     // Agregar a favoritos: POST /favorites
     @PostMapping
     public ResponseEntity<Favorite> addFavorite(@RequestBody FavoriteRequest favoriteRequest) {
-        Favorite result = favoriteService.addFavorite(favoriteRequest);
-        return ResponseEntity.status(201).body(result);
+        return ResponseEntity.ok(favoriteService.addFavorite(favoriteRequest));
     }
 
     // Quitar de favoritos: DELETE /favorites/5

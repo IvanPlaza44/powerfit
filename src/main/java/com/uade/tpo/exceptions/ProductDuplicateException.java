@@ -1,6 +1,10 @@
 package com.uade.tpo.exceptions;
 
-public class ProductDuplicateException {
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+@ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "Ya existe un producto con ese nombre")
+public class ProductDuplicateException extends Exception{
     
     
 }

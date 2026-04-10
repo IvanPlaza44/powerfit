@@ -1,7 +1,8 @@
 package com.uade.tpo.service;
 
 import com.uade.tpo.entity.User;
-import com.uade.tpo.entity.dto.UserRegistrationDTO;
+import com.uade.tpo.entity.dto.UserRequest;
+import com.uade.tpo.exceptions.UserGenericException;
 import com.uade.tpo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,21 +13,31 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
-    @Override
-    public User registerUser(UserRegistrationDTO registrationDTO) {
+    //Registrar un nuevo usuario
+    public User registerUser(UserRequest request) {
+
+        //Validamos si ya existe el username ya que es unico
+        if(userRepository.existsByUsername(request.getUsername())){
+            throw new UserGenericException("El nombre de usuario '" + request.getUsername() + "' ya existe.");
+        }
+
+        //Validamos que el email ya esta en uso porque es unico.
+        if(userRepository.existsByEmail(request.getEmail())){
+            throw new UserGenericException("El email " + request.getEmail() + "ya esta en uso, pruebe con uno nuevo");
+        }
+
         User user = new User();
-        
-        user.setUsername(registrationDTO.getUsername());
-        user.setEmail(registrationDTO.getEmail());
-        user.setPassword(registrationDTO.getPassword()); 
-        user.setFirstName(registrationDTO.getFirstName());
-        user.setLastName(registrationDTO.getLastName());
-        user.setRole(registrationDTO.getRole());
-        
+        user.setUsername(request.getUsername());
+        user.setEmail(request.getEmail());
+        user.setPassword(request.getPassword()); 
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setRole(request.getRole());
+  
         return userRepository.save(user);
     }
 
-    @Override
+    //Loguearse
     public boolean authenticate(String username, String password) {
         return userRepository.findByUsername(username)
                 .map(user -> user.getPassword().equals(password))

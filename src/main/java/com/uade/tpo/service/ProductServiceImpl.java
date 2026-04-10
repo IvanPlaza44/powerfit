@@ -1,16 +1,16 @@
 package com.uade.tpo.service;
 
-
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
 import com.uade.tpo.entity.Category;
 import com.uade.tpo.entity.Product;
 import com.uade.tpo.entity.dto.ProductRequest;
+import com.uade.tpo.exceptions.CategoryNotFoundException;
+import com.uade.tpo.exceptions.ProductDuplicateException;
+import com.uade.tpo.exceptions.ProductNotFoundException;
 import com.uade.tpo.repository.CategoryRepository;
 import com.uade.tpo.repository.ProductRepository;
 
@@ -23,20 +23,24 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    //DEVOLVER TODOS LOS PRODUCTOS
     public Page<Product> getProducts(PageRequest pageable) {
-        return productRepository.findAvailableProducts(pageable);
+        return productRepository.findAll(pageable);
     }
 
+    //DEVUELVE PRODUCTO POR ID
     public Optional<Product> getProductById(Long productId) {
         return productRepository.findById(productId);
     }
 
-    public Product createProduct(ProductRequest request) {
+    //CREA UN NUEVO PRODUCTO
+    public Product createProduct(ProductRequest request) throws ProductDuplicateException, CategoryNotFoundException{
         // Validación de categoría
         Category category = categoryRepository.findById(request.getCategoryId()) 
-                .orElseThrow(() -> new RuntimeException("Categoria no encontrada"));
+                .orElseThrow(() -> new CategoryNotFoundException());
+
         if (!productRepository.findByName(request.getName()).isEmpty()) {
-            throw new RuntimeException("Ya existe el producto con ese nombre");
+            throw new ProductDuplicateException();
 }
         Product product = new Product();
         product.setName(request.getName());
@@ -51,9 +55,9 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.save(product);
     }
 
-    @Override
-    public Product updateProduct(Long id, ProductRequest request) {
-        return productRepository.findById(id).map(product -> {
+    //EDITA UN PRODUCTO PASANDOLE EL ID Y NUEVOS DATOS
+    public Product updateProduct(Long productId, ProductRequest request) throws ProductNotFoundException {
+        return productRepository.findById(productId).map(product -> {
             product.setName(request.getName());
             product.setDescription(request.getDescription());
             product.setPrice(request.getPrice());
@@ -61,11 +65,15 @@ public class ProductServiceImpl implements ProductService {
             product.setDiscount(request.getDiscount());
             product.setImage(request.getImage());
             return productRepository.save(product);
-        }).orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+        }).orElseThrow(ProductNotFoundException::new);
     }
 
-    @Override
-    public void deleteProduct(Long id) {
+    //ELIMINA UN PRODUCTO POR EL ID
+    public String deleteProduct(Long id) throws ProductNotFoundException {
+        if (!productRepository.existsById(id)){
+            throw new ProductNotFoundException();
+        }
         productRepository.deleteById(id);
+        return "Producto eliminado exitosamente";
     }
 }
