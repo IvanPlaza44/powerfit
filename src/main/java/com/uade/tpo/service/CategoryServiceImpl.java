@@ -33,4 +33,14 @@ public class CategoryServiceImpl implements CategoryService {
             return categoryRepository.save(new Category(description));
         throw new CategoryDuplicateException();
     }
+
+    @Override
+    public void deleteCategory(Long categoryId) {
+
+    if (!categoryRepository.existsById(categoryId)) {
+        throw new RuntimeException("Categoria no encontrada");
+    }
+
+    categoryRepository.deleteById(categoryId);
+    }
 }
