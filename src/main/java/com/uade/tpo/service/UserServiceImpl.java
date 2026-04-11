@@ -14,6 +14,7 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     //Registrar un nuevo usuario
+    @Override
     public User registerUser(UserRequest request) {
 
         //Validamos si ya existe el username ya que es unico
@@ -38,6 +39,7 @@ public class UserServiceImpl implements UserService {
     }
 
     //Loguearse
+    @Override
     public boolean authenticate(String username, String password) {
         return userRepository.findByUsername(username)
                 .map(user -> user.getPassword().equals(password))

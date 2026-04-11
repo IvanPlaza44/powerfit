@@ -25,6 +25,7 @@ public class FavoriteServiceImpl implements FavoriteService {
     @Autowired
     private UserRepository userRepository;
 
+    @Override
     public Favorite addFavorite(FavoriteRequest request) {
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
@@ -43,6 +44,7 @@ public class FavoriteServiceImpl implements FavoriteService {
         return favoriteRepository.save(favorite);
     }
 
+    @Override
     public List<Favorite> getFavoritesByUserId(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
@@ -50,6 +52,7 @@ public class FavoriteServiceImpl implements FavoriteService {
         return favoriteRepository.findByUser(user);
     }
 
+    @Override
     public void removeFavorite(Long favoriteId) {
         if (!favoriteRepository.existsById(favoriteId)) {
             throw new RuntimeException("El favorito no existe");

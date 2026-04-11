@@ -24,16 +24,19 @@ public class ProductServiceImpl implements ProductService {
     private CategoryRepository categoryRepository;
 
     //DEVOLVER TODOS LOS PRODUCTOS
+    @Override
     public Page<Product> getProducts(PageRequest pageable) {
         return productRepository.findAll(pageable);
     }
 
     //DEVUELVE PRODUCTO POR ID
+    @Override
     public Optional<Product> getProductById(Long productId) {
         return productRepository.findById(productId);
     }
 
     //CREA UN NUEVO PRODUCTO
+    @Override
     public Product createProduct(ProductRequest request) throws ProductDuplicateException, CategoryNotFoundException{
         // Validación de categoría
         Category category = categoryRepository.findById(request.getCategoryId()) 
@@ -56,6 +59,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     //EDITA UN PRODUCTO PASANDOLE EL ID Y NUEVOS DATOS
+    @Override
     public Product updateProduct(Long productId, ProductRequest request) throws ProductNotFoundException {
         return productRepository.findById(productId).map(product -> {
             product.setName(request.getName());
@@ -69,6 +73,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     //ELIMINA UN PRODUCTO POR EL ID
+    @Override
     public String deleteProduct(Long id) throws ProductNotFoundException {
         if (!productRepository.existsById(id)){
             throw new ProductNotFoundException();

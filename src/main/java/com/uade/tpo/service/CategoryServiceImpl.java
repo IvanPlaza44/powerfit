@@ -19,14 +19,17 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @Override
     public Page<Category> getCategories(PageRequest pageable) {
         return categoryRepository.findAll(pageable);
     }
-
+    
+    @Override
     public Optional<Category> getCategoryById(Long categoryId) {
         return categoryRepository.findById(categoryId);
     }
 
+    @Override
     public Category createCategory(String description) throws CategoryDuplicateException {
         List<Category> categories = categoryRepository.findByDescription(description);
         if (categories.isEmpty())

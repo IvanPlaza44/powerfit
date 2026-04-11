@@ -9,7 +9,6 @@ import com.uade.tpo.entity.CartDetail;
 import com.uade.tpo.entity.Product;
 import com.uade.tpo.entity.User;
 import com.uade.tpo.entity.dto.CartProductRequest;
-//import com.uade.tpo.exceptions.ResourceNotFoundException;
 import com.uade.tpo.repository.CartDetailRepository;
 import com.uade.tpo.repository.CartRepository;
 import com.uade.tpo.repository.ProductRepository;
@@ -30,6 +29,7 @@ public class CartServiceImp implements CartService {
     @Autowired
     private CartDetailRepository cartDetailRepository;
 
+    //Devolver el carrito por id del usuario
     @Override
     public List<CartDetail> getCartByUserId(Long userId) {
 
@@ -39,6 +39,7 @@ public class CartServiceImp implements CartService {
         return cartDetailRepository.findByCart_Id(cart.getId());
     }
 
+    //Agregar un producto al carrito de un usuario
     @Override
     public List<CartDetail> addProduct(Long userId, CartProductRequest request) {
 
@@ -71,6 +72,7 @@ public class CartServiceImp implements CartService {
         return cartDetailRepository.findByCart_Id(cart.getId());
     }
 
+    //Eliminar un producto del carrito de un usuario
     @Override
     public void removeProduct(Long userId, Long productId) {
 
@@ -84,6 +86,7 @@ public class CartServiceImp implements CartService {
         cartDetailRepository.delete(detail);
     }
 
+    //Editar la cantidad de un producto de un carrito de un usuario
     @Override
     public List<CartDetail> updateProductQuantity(Long userId, Long productId, Integer quantity) {
 
@@ -100,4 +103,11 @@ public class CartServiceImp implements CartService {
 
         return cartDetailRepository.findByCart_Id(cart.getId());
     }
+//Vacia el carrito
+@Override
+public void clearCart(Long userId) {
+    Cart cart = cartRepository.findByUser_Id(userId)
+            .orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
+    cartDetailRepository.deleteByCart_Id(cart.getId());
+}
   }
