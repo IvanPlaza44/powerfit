@@ -12,10 +12,17 @@ import com.uade.tpo.entity.dto.CartProductRequest;
 //import com.uade.tpo.exceptions.ResourceNotFoundException;
 import com.uade.tpo.repository.CartDetailRepository;
 import com.uade.tpo.repository.CartRepository;
+import com.uade.tpo.repository.ProductRepository;
+import com.uade.tpo.repository.UserRepository;
 
 @Service
 public class CartServiceImp implements CartService {
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     @Autowired
     private CartRepository cartRepository;
@@ -38,8 +45,7 @@ public class CartServiceImp implements CartService {
         Cart cart = cartRepository.findByUser_Id(userId)
                 .orElseGet(() -> {
                     Cart newCart = new Cart();
-                    User user = new User();
-                    user.setId(userId);
+                    User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
                     newCart.setUser(user);
                     return cartRepository.save(newCart);
                 });
@@ -50,8 +56,8 @@ public class CartServiceImp implements CartService {
                     CartDetail newDetail = new CartDetail();
                     newDetail.setCart(cart);
 
-                    Product product = new Product();
-                    product.setId(request.getProductId());
+                    Product product = productRepository.findById(request.getProductId())
+    .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
 
                     newDetail.setProduct(product);
                     newDetail.setQuantity(0);
