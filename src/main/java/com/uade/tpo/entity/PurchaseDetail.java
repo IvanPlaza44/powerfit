@@ -1,5 +1,7 @@
 package com.uade.tpo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -15,6 +17,7 @@ public class PurchaseDetail {
 
     @ManyToOne
     @JoinColumn(name = "purchase_id")
+    @JsonIgnore
     private Purchase purchase;
 
     @ManyToOne
