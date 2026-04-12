@@ -9,6 +9,8 @@ import com.uade.tpo.entity.CartDetail;
 import com.uade.tpo.entity.Product;
 import com.uade.tpo.entity.User;
 import com.uade.tpo.entity.dto.CartProductRequest;
+import com.uade.tpo.exceptions.UserGenericException;
+//import com.uade.tpo.exceptions.ResourceNotFoundException;
 import com.uade.tpo.repository.CartDetailRepository;
 import com.uade.tpo.repository.CartRepository;
 import com.uade.tpo.repository.ProductRepository;
@@ -34,8 +36,7 @@ public class CartServiceImp implements CartService {
     public List<CartDetail> getCartByUserId(Long userId) {
 
         Cart cart = cartRepository.findByUser_Id(userId)
-                .orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
-
+                 .orElseThrow(() -> new UserGenericException("Carrito no encontrado"));
         return cartDetailRepository.findByCart_Id(cart.getId());
     }
 
@@ -46,7 +47,7 @@ public class CartServiceImp implements CartService {
         Cart cart = cartRepository.findByUser_Id(userId)
                 .orElseGet(() -> {
                     Cart newCart = new Cart();
-                    User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                    User user = userRepository.findById(userId).orElseThrow(() -> new UserGenericException("Usuario no encontrado"));
                     newCart.setUser(user);
                     return cartRepository.save(newCart);
                 });
@@ -58,7 +59,7 @@ public class CartServiceImp implements CartService {
                     newDetail.setCart(cart);
 
                     Product product = productRepository.findById(request.getProductId())
-    .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+                         .orElseThrow(() -> new UserGenericException("Producto no encontrado"));
 
                     newDetail.setProduct(product);
                     newDetail.setQuantity(0);
@@ -77,11 +78,10 @@ public class CartServiceImp implements CartService {
     public void removeProduct(Long userId, Long productId) {
 
         Cart cart = cartRepository.findByUser_Id(userId)
-                .orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
-
+                .orElseThrow(() -> new UserGenericException("Carrito no encontrado"));
         CartDetail detail = cartDetailRepository
                 .findByCart_IdAndProduct_Id(cart.getId(), productId)
-                .orElseThrow(() -> new RuntimeException("Producto no encontrado en carrito"));
+                .orElseThrow(() -> new UserGenericException("Producto no encontrado en carrito"));
 
         cartDetailRepository.delete(detail);
     }
