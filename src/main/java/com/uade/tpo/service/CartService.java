@@ -1,7 +1,8 @@
 package com.uade.tpo.service;
 
+import com.uade.tpo.controllers.cart.CartProductRequest;
 import com.uade.tpo.entity.CartDetail;
-import com.uade.tpo.entity.dto.CartProductRequest;
+
 import java.util.List;
 
 public interface CartService {

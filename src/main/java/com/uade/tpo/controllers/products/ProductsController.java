@@ -1,4 +1,4 @@
-package com.uade.tpo.controllers;
+package com.uade.tpo.controllers.products;
 
 import java.net.URI;
 import java.util.Optional;
@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.uade.tpo.entity.Product;
-import com.uade.tpo.entity.dto.ProductRequest;
 import com.uade.tpo.exceptions.CategoryNotFoundException;
 import com.uade.tpo.exceptions.ProductDuplicateException;
 import com.uade.tpo.exceptions.ProductNotFoundException;

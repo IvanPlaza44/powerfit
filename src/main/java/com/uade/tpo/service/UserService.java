@@ -1,7 +1,7 @@
 package com.uade.tpo.service;
 
+import com.uade.tpo.controllers.auth.UserRequest;
 import com.uade.tpo.entity.User;
-import com.uade.tpo.entity.dto.UserRequest;
 
 public interface UserService {
 

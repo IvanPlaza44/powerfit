@@ -1,7 +1,7 @@
 package com.uade.tpo.service;
 
+import com.uade.tpo.controllers.purchase.PurchaseRequest;
 import com.uade.tpo.entity.*;
-import com.uade.tpo.entity.dto.PurchaseRequest;
 import com.uade.tpo.repository.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;

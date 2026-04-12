@@ -1,15 +1,15 @@
-package com.uade.tpo.controllers;
+package com.uade.tpo.controllers.auth;
 
 import com.uade.tpo.entity.User;
-import com.uade.tpo.entity.dto.UserRequest;
 import com.uade.tpo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/auth")
-public class AuthController {
+@RequestMapping("/users")
+public class UserController {
+
 
     @Autowired
     private UserService userService;
@@ -17,13 +17,13 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody UserRequest user) {
         return ResponseEntity.ok(userService.registerUser(user));
-    }
+}
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
         if (userService.authenticate(username, password)) {
-            return ResponseEntity.ok("Login exitoso");
+            return ResponseEntity.ok("Login successful");
         }
-        return ResponseEntity.status(401).body("Usuario o contraseña incorrectos");
+        return ResponseEntity.status(401).body("Invalid credentials");
     }
 }

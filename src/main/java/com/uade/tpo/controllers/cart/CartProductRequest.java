@@ -1,4 +1,4 @@
-package com.uade.tpo.entity.dto;
+package com.uade.tpo.controllers.cart;
 
 import lombok.Data;
 

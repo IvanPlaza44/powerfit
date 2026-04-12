@@ -5,9 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+
+import com.uade.tpo.controllers.products.ProductRequest;
 import com.uade.tpo.entity.Category;
 import com.uade.tpo.entity.Product;
-import com.uade.tpo.entity.dto.ProductRequest;
 import com.uade.tpo.exceptions.CategoryNotFoundException;
 import com.uade.tpo.exceptions.ProductDuplicateException;
 import com.uade.tpo.exceptions.ProductNotFoundException;

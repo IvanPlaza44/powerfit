@@ -1,7 +1,7 @@
 package com.uade.tpo.service;
 
+import com.uade.tpo.controllers.auth.UserRequest;
 import com.uade.tpo.entity.User;
-import com.uade.tpo.entity.dto.UserRequest;
 import com.uade.tpo.exceptions.UserGenericException;
 import com.uade.tpo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

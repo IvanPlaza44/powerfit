@@ -1,4 +1,4 @@
-package com.uade.tpo.controllers;
+package com.uade.tpo.controllers.favorites;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.uade.tpo.entity.Favorite;
-import com.uade.tpo.entity.dto.FavoriteRequest;
 import com.uade.tpo.service.FavoriteService;
 
 @RestController

@@ -3,8 +3,9 @@ package com.uade.tpo.service;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+
+import com.uade.tpo.controllers.products.ProductRequest;
 import com.uade.tpo.entity.Product;
-import com.uade.tpo.entity.dto.ProductRequest;
 import com.uade.tpo.exceptions.CategoryNotFoundException;
 import com.uade.tpo.exceptions.ProductDuplicateException;
 import com.uade.tpo.exceptions.ProductNotFoundException;

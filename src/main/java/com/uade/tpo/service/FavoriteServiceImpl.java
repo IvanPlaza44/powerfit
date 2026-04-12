@@ -5,10 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.uade.tpo.controllers.favorites.FavoriteRequest;
 import com.uade.tpo.entity.Favorite;
 import com.uade.tpo.entity.Product;
 import com.uade.tpo.entity.User;
-import com.uade.tpo.entity.dto.FavoriteRequest;
 import com.uade.tpo.repository.FavoriteRepository;
 import com.uade.tpo.repository.ProductRepository;
 import com.uade.tpo.repository.UserRepository;

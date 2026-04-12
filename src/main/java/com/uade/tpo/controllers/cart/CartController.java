@@ -1,7 +1,6 @@
-package com.uade.tpo.controllers;
+package com.uade.tpo.controllers.cart;
 
 import com.uade.tpo.entity.CartDetail;
-import com.uade.tpo.entity.dto.CartProductRequest;
 import com.uade.tpo.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

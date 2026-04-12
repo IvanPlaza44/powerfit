@@ -1,7 +1,6 @@
-package com.uade.tpo.controllers;
+package com.uade.tpo.controllers.purchase;
 
 import com.uade.tpo.entity.Purchase;
-import com.uade.tpo.entity.dto.PurchaseRequest;
 import com.uade.tpo.service.PurchaseService;
 
 import org.springframework.beans.factory.annotation.Autowired;

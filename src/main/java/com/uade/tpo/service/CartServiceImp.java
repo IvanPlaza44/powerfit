@@ -4,11 +4,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.uade.tpo.controllers.cart.CartProductRequest;
 import com.uade.tpo.entity.Cart;
 import com.uade.tpo.entity.CartDetail;
 import com.uade.tpo.entity.Product;
 import com.uade.tpo.entity.User;
-import com.uade.tpo.entity.dto.CartProductRequest;
 import com.uade.tpo.exceptions.UserGenericException;
 //import com.uade.tpo.exceptions.ResourceNotFoundException;
 import com.uade.tpo.repository.CartDetailRepository;

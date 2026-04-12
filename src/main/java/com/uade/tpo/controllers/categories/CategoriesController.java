@@ -1,11 +1,10 @@
-package com.uade.tpo.controllers;
+package com.uade.tpo.controllers.categories;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.uade.tpo.entity.Category;
-import com.uade.tpo.entity.dto.CategoryRequest;
 import com.uade.tpo.exceptions.CategoryDuplicateException;
 import com.uade.tpo.service.CategoryService;
 
