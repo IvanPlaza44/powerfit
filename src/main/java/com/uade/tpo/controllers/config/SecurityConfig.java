@@ -24,18 +24,44 @@ public class SecurityConfig {
         private final AuthenticationProvider authenticationProvider;
 
         @Bean
-        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-                http
-                                .csrf(AbstractHttpConfigurer::disable)
-                                .authorizeHttpRequests(req -> req.requestMatchers("/api/v1/auth/**").permitAll()
-                                                .requestMatchers("/error/**").permitAll()
-                                                .requestMatchers("/categories/**").hasAnyAuthority(Role.BUYER.name())
-                                                .anyRequest()
-                                                .authenticated())
-                                .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
-                                .authenticationProvider(authenticationProvider)
-                                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http
+        .csrf(AbstractHttpConfigurer::disable)
+        .authorizeHttpRequests(req -> req
 
-                return http.build();
-        }
+            // endpoints públicos (login / register)
+            .requestMatchers("/api/v1/auth/**").permitAll()
+
+            // manejo de errores
+            .requestMatchers("/error/**").permitAll()
+
+            // VER productos y categorías (cualquiera)
+            .requestMatchers(org.springframework.http.HttpMethod.GET, "/product/**").permitAll() // cualquiera puede ver productos
+            .requestMatchers(org.springframework.http.HttpMethod.GET, "/categories/**").permitAll() // cualquiera puede ver categorías
+
+            // ADMIN maneja productos y categorías
+            .requestMatchers("/product/**").hasAuthority(Role.ADMIN.name()) // crear, editar, borrar productos
+            .requestMatchers("/categories/**").hasAuthority(Role.ADMIN.name()) // crear, editar categorías
+
+            // usuarios agregar a favorites, ver o eliminar
+            .requestMatchers("/favorite/**").hasAuthority(Role.BUYER.name()) // solo usuarios logueados manejan favoritos
+
+            // usuarios gestionar y ver su cart
+            .requestMatchers("/cart/**").hasAuthority(Role.BUYER.name()) // manejar carrito
+            .requestMatchers("/cart-detail/**").hasAuthority(Role.BUYER.name()) // items del carrito
+
+            // usuarios ver sus purchase
+            .requestMatchers("/purchase/**").hasAnyAuthority(Role.BUYER.name(), Role.ADMIN.name()) // ver/comprar
+            .requestMatchers("/purchase-detail/**").hasAnyAuthority(Role.BUYER.name(), Role.ADMIN.name()) // detalle de compras
+
+            // todo lo demás con autenticacion
+            .anyRequest().authenticated()
+        )
+        .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
+        .authenticationProvider(authenticationProvider)
+        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+
+    return http.build();
+}
+
 }
