@@ -23,4 +23,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     //  Filtrado por categoría
     @Query("SELECT p FROM Product p WHERE p.category.id = ?1 AND p.stock > 0")
     Page<Product> findByCategoryId(Long categoryId, Pageable pageable);
+
 }

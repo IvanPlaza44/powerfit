@@ -36,11 +36,11 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
             .requestMatchers("/error/**").permitAll()
 
             // VER productos y categorías (cualquiera)
-            .requestMatchers(org.springframework.http.HttpMethod.GET, "/product/**").permitAll() // cualquiera puede ver productos
+            .requestMatchers(org.springframework.http.HttpMethod.GET, "/products/**").permitAll() // cualquiera puede ver productos
             .requestMatchers(org.springframework.http.HttpMethod.GET, "/categories/**").permitAll() // cualquiera puede ver categorías
 
             // ADMIN maneja productos y categorías
-            .requestMatchers("/product/**").hasAuthority(Role.ADMIN.name()) // crear, editar, borrar productos
+            .requestMatchers("/products/**").hasAuthority(Role.ADMIN.name()) // crear, editar, borrar productos
             .requestMatchers("/categories/**").hasAuthority(Role.ADMIN.name()) // crear, editar categorías
 
             // usuarios agregar a favorites, ver o eliminar

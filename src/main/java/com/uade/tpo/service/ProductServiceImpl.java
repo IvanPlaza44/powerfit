@@ -27,7 +27,7 @@ public class ProductServiceImpl implements ProductService {
     //DEVOLVER TODOS LOS PRODUCTOS
     @Override
     public Page<Product> getProducts(PageRequest pageable) {
-        return productRepository.findAll(pageable);
+        return productRepository.findAvailableProducts(pageable);
     }
 
     //DEVUELVE PRODUCTO POR ID

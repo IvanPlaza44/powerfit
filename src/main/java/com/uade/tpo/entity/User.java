@@ -39,6 +39,7 @@ public class User implements UserDetails {
 
     private String password;
 
+    @Column(name = "first_name")
     private String firstName;
 
     @Column(nullable = false, unique = true)

@@ -22,4 +22,5 @@ public interface ProductService {
     public Product updateProduct(Long id, ProductRequest productRequest) throws ProductNotFoundException;//Edita un producto ya creado
 
     public String deleteProduct(Long id) throws ProductNotFoundException; //Elimina un producto
+    
 }
