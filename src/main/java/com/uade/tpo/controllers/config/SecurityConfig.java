@@ -30,7 +30,7 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
         .authorizeHttpRequests(req -> req
 
             // endpoints públicos (login / register)
-            .requestMatchers("/api/v1/auth/**").permitAll()
+            .requestMatchers("/auth/**").permitAll()
 
             // manejo de errores
             .requestMatchers("/error/**").permitAll()
