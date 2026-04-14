@@ -43,37 +43,47 @@ public class CartServiceImp implements CartService {
     }
 
     //Agregar un producto al carrito de un usuario
-    @Override
-    public List<CartDetail> addProduct(Long userId, CartProductRequest request) {
+ @Override
+public List<CartDetail> addProduct(Long userId, CartProductRequest request) {
 
-        Cart cart = cartRepository.findByUser_Id(userId)
-                .orElseGet(() -> {
-                    Cart newCart = new Cart();
-                    User user = userRepository.findById(userId).orElseThrow(() -> new UserGenericException("Usuario no encontrado"));
-                    newCart.setUser(user);
-                    return cartRepository.save(newCart);
-                });
+    Cart cart = cartRepository.findByUser_Id(userId)
+            .orElseGet(() -> {
+                Cart newCart = new Cart();
+                User user = userRepository.findById(userId)
+                        .orElseThrow(() -> new UserGenericException("Usuario no encontrado"));
+                newCart.setUser(user);
+                return cartRepository.save(newCart);
+            });
 
-        CartDetail detail = cartDetailRepository
-                .findByCart_IdAndProduct_Id(cart.getId(), request.getProductId())
-                .orElseGet(() -> {
-                    CartDetail newDetail = new CartDetail();
-                    newDetail.setCart(cart);
+    CartDetail detail = cartDetailRepository
+            .findByCart_IdAndProduct_Id(cart.getId(), request.getProductId())
+            .orElseGet(() -> {
+                CartDetail newDetail = new CartDetail();
+                newDetail.setCart(cart);
 
-                    Product product = productRepository.findById(request.getProductId())
-                         .orElseThrow(() -> new UserGenericException("Producto no encontrado"));
+                Product product = productRepository.findById(request.getProductId())
+                        .orElseThrow(() -> new UserGenericException("Producto no encontrado"));
 
-                    newDetail.setProduct(product);
-                    newDetail.setQuantity(0);
-                    return newDetail;
-                });
+                newDetail.setProduct(product);
+                newDetail.setQuantity(0);
+                return newDetail;
+            });
 
-        detail.setQuantity(detail.getQuantity() + request.getQuantity());
+    Product product = productRepository.findById(request.getProductId())
+            .orElseThrow(() -> new UserGenericException("Producto no encontrado"));
 
-        cartDetailRepository.save(detail);
+    int newQuantity = detail.getQuantity() + request.getQuantity();
 
-        return cartDetailRepository.findByCart_Id(cart.getId());
+    if (newQuantity > product.getStock()) {
+        throw new UserGenericException("No hay stock suficiente");
     }
+
+    detail.setQuantity(newQuantity);
+
+    cartDetailRepository.save(detail);
+
+    return cartDetailRepository.findByCart_Id(cart.getId());
+}
 
     //Eliminar un producto del carrito de un usuario
     @Override
@@ -89,27 +99,39 @@ public class CartServiceImp implements CartService {
     }
 
     //Editar la cantidad de un producto de un carrito de un usuario
+
     @Override
     public List<CartDetail> updateProductQuantity(Long userId, Long productId, Integer quantity) {
 
-        Cart cart = cartRepository.findByUser_Id(userId)
-                .orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
-
-        CartDetail detail = cartDetailRepository
-                .findByCart_IdAndProduct_Id(cart.getId(), productId)
-                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
-
-        detail.setQuantity(quantity);
-
-        cartDetailRepository.save(detail);
-
-        return cartDetailRepository.findByCart_Id(cart.getId());
-    }
-//Vacia el carrito
-@Override
-public void clearCart(Long userId) {
     Cart cart = cartRepository.findByUser_Id(userId)
             .orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
+
+    CartDetail detail = cartDetailRepository
+            .findByCart_IdAndProduct_Id(cart.getId(), productId)
+            .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+
+    Product product = productRepository.findById(productId)
+            .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+
+    if (quantity > product.getStock()) {
+        throw new RuntimeException("No hay stock suficiente");
+    }
+
+    detail.setQuantity(quantity);
+
+    cartDetailRepository.save(detail);
+
+    return cartDetailRepository.findByCart_Id(cart.getId());
+}
+    //Vacia el carrito
+
+    @Override
+    public String clearCart(Long userId) {
+    Cart cart = cartRepository.findByUser_Id(userId)
+            .orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
+
     cartDetailRepository.deleteByCart_Id(cart.getId());
+
+    return "Listo, vaciaste el carrito ";
 }
   }

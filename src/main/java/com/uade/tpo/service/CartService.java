@@ -20,5 +20,6 @@ public interface CartService {
     List<CartDetail> updateProductQuantity(Long userId, Long productId, Integer quantity);
 
     //Falta vaciar un carrito de un usuario.
-    void clearCart(Long userId);
+    String clearCart(Long userId);
+
 }
