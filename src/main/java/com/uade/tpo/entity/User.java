@@ -7,6 +7,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -26,27 +28,38 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 public class User implements UserDetails {
+
+    
+    //Identificador
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    
+    //Username unico y obligatorio
     @Column(nullable = false, unique = true)
-        private String username;
+    private String username;
 
-    private String email;
-
-    private String name;
-
+    //Contraseña obligatoria
+    @Column(nullable = false)
+    @JsonIgnore
     private String password;
 
-    @Column(name = "first_name")
+    //Email obligatorio y unico
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    //Primer nombre obligatorio
+    @Column(nullable = false)
     private String firstName;
 
-    @Column(nullable = false, unique = true)
+    //Apellido no es obligatorio
+    @Column
     private String lastName;
 
+    //Rol deo usuario
+    @Builder.Default
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private Role role = Role.BUYER;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
