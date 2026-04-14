@@ -25,6 +25,9 @@ public class AuthenticationService {
         private final AuthenticationManager authenticationManager;
 
         public AuthenticationResponse register(RegisterRequest request) {
+                if (repository.existsByEmail(request.getEmail())) {
+                throw new RuntimeException("El email ya esta registrado");
+                }
                 var user = User.builder()
                                 .firstName(request.getFirstname())
                                 .lastName(request.getLastname())
