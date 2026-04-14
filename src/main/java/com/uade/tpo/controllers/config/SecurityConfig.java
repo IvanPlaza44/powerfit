@@ -40,8 +40,8 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
             .requestMatchers(org.springframework.http.HttpMethod.GET, "/categories/**").permitAll() // cualquiera puede ver categorías
 
             // ADMIN maneja productos y categorías
-            .requestMatchers("/products/**").hasAuthority(Role.ADMIN.name()) // crear, editar, borrar productos
-            .requestMatchers("/categories/**").hasAuthority(Role.ADMIN.name()) // crear, editar categorías
+            .requestMatchers("/products/**").hasAuthority(Role.SELLER.name()) // crear, editar, borrar productos
+            .requestMatchers("/categories/**").hasAuthority(Role.SELLER.name()) // crear, editar categorías
 
             // usuarios agregar a favorites, ver o eliminar
             .requestMatchers("/favorite/**").hasAuthority(Role.BUYER.name()) // solo usuarios logueados manejan favoritos
