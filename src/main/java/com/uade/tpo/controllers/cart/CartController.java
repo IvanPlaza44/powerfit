@@ -14,10 +14,15 @@ public class CartController {
     @Autowired private CartService cartService;
 
     @GetMapping("/{userId}")
-    public ResponseEntity<List<CartDetail>> getCart(@PathVariable Long userId) {
-        List<CartDetail> details = cartService.getCartByUserId(userId);
-        return details.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(details);
+    public ResponseEntity<?> getCart(@PathVariable Long userId) {
+    List<CartDetail> details = cartService.getCartByUserId(userId);
+
+    if (details.isEmpty()) {
+        return ResponseEntity.ok("El carrito está vacío");
     }
+
+    return ResponseEntity.ok(details);
+}   
 
     @PostMapping("/{userId}/products")
     public ResponseEntity<List<CartDetail>> addProduct(@PathVariable Long userId, @RequestBody CartProductRequest request) {

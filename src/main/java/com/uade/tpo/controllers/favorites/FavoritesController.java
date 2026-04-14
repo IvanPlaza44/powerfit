@@ -33,8 +33,8 @@ public class FavoritesController {
 
     // Quitar de favoritos: DELETE /favorites/5
     @DeleteMapping("/{favoriteId}")
-    public ResponseEntity<Void> removeFavorite(@PathVariable Long favoriteId) {
+    public ResponseEntity<String> removeFavorite(@PathVariable Long favoriteId) {
         favoriteService.removeFavorite(favoriteId);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("Favorito eliminado correctamente");
     }
 }
