@@ -46,3 +46,12 @@ public class Product {
     private Long sellerId; // Referencia al ID del Usuario vendedor
 }
 
+/*{
+  "id": 1,
+  "name": "Producto A",
+  "price": 1500.0,
+  "stock": 10,
+  "categoryId": 1,
+  "sellerId": 1
+}
+  */
