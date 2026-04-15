@@ -53,6 +53,11 @@ public class PurchaseServiceImp implements PurchaseService {
         for (CartDetail cartDetail : cart.getDetails()) {
 
             Product product = cartDetail.getProduct();
+            double finalPrice = product.getPrice();
+
+            if (product.getDiscount() > 0) {
+                finalPrice = finalPrice - (finalPrice * product.getDiscount() / 100);
+            }
 
             // validar stock
             if (product.getStock() < cartDetail.getQuantity()) {
@@ -68,11 +73,10 @@ public class PurchaseServiceImp implements PurchaseService {
             purchaseDetail.setPurchase(purchase);
             purchaseDetail.setProduct(product);
             purchaseDetail.setQuantity(cartDetail.getQuantity());
-            purchaseDetail.setPrice(product.getPrice());
-
+            purchaseDetail.setPrice(finalPrice);
             purchase.getDetails().add(purchaseDetail);
 
-            total += product.getPrice() * cartDetail.getQuantity();
+            total += finalPrice * cartDetail.getQuantity();
         }
 
         purchase.setTotal(total);
