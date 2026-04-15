@@ -51,7 +51,7 @@ public class ProductsController {
     public ResponseEntity<Product> createProduct(
             @RequestBody ProductRequest request,
             Authentication authentication
-    ) throws ProductDuplicateException, CategoryNotFoundException {
+    ) throws ProductDuplicateException, CategoryNotFoundException, ProductNotFoundException {
         String username = authentication.getName();
 
         Product product = productService.createProduct(request, username);

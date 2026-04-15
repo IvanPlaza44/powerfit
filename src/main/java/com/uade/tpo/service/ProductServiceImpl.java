@@ -5,9 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
 import com.uade.tpo.controllers.products.ProductRequest;
-import com.uade.tpo.entity.Category;
 import com.uade.tpo.entity.Product;
 import com.uade.tpo.entity.Role;
 import com.uade.tpo.exceptions.CategoryNotFoundException;
@@ -25,7 +23,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private UserRepository userRepository;
-
     
     @Autowired
     private CategoryRepository categoryRepository;
@@ -41,8 +38,10 @@ public class ProductServiceImpl implements ProductService {
     public Optional<Product> getProductById(Long productId) {
         return productRepository.findById(productId);
     }
-    @Override
-    public Product createProduct(ProductRequest request, String username) throws CategoryNotFoundException {
+
+    //CREA UN NUEVO PRODUCTO
+     @Override
+    public Product createProduct(ProductRequest request, String username) throws CategoryNotFoundException, ProductNotFoundException, ProductDuplicateException {
 
         var user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
@@ -53,6 +52,9 @@ public class ProductServiceImpl implements ProductService {
 
         var category = categoryRepository.findById(request.getCategoryId())
                 .orElseThrow(() -> new CategoryNotFoundException());
+                
+        if (!productRepository.findByName(request.getName()).isEmpty()) {
+            throw new ProductDuplicateException();}
 
         var product = new Product();
 
@@ -67,7 +69,6 @@ public class ProductServiceImpl implements ProductService {
 
         return productRepository.save(product);
     }
-
 
     //EDITA UN PRODUCTO PASANDOLE EL ID Y NUEVOS DATOS
     @Override
