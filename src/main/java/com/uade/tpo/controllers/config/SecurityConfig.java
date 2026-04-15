@@ -39,7 +39,7 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
             .requestMatchers(org.springframework.http.HttpMethod.GET, "/products/**").permitAll() // cualquiera puede ver productos
             .requestMatchers(org.springframework.http.HttpMethod.GET, "/categories/**").permitAll() // cualquiera puede ver categorías
 
-            // ADMIN maneja productos y categorías
+            // SELLER maneja productos y categorías
             .requestMatchers("/products/**").hasAuthority(Role.SELLER.name()) // crear, editar, borrar productos
             .requestMatchers("/categories/**").hasAuthority(Role.SELLER.name()) // crear, editar categorías
 
