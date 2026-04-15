@@ -49,6 +49,7 @@ public class Product {
 /*{
   "id": 1,
   "name": "Producto A",
+  "description": "algo",
   "price": 1500.0,
   "stock": 10,
   "categoryId": 1,
