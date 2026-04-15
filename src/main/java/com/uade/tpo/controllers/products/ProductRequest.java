@@ -11,5 +11,5 @@ public class ProductRequest {
     private int discount;
     private int stock;
     private Long categoryId;
-    private Long sellerId; // "Usuario Vendedor"
+
 }

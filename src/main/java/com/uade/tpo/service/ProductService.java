@@ -17,7 +17,7 @@ public interface ProductService {
 
     public Optional<Product> getProductById(Long productId); //Devuelve un producto por ID
 
-    public Product createProduct(ProductRequest productRequest) throws ProductDuplicateException, CategoryNotFoundException; //Crea un nuevo producto
+    public Product createProduct(ProductRequest productRequest, String username) throws ProductDuplicateException, CategoryNotFoundException; //Crea un nuevo producto
 
     public Product updateProduct(Long id, ProductRequest productRequest) throws ProductNotFoundException;//Edita un producto ya creado
 

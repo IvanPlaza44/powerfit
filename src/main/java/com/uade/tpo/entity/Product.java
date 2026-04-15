@@ -42,7 +42,8 @@ public class Product {
     @JsonIgnoreProperties("products")
     private Category category;
 
-    @Column(name = "seller_id")
-    private Long sellerId; // Referencia al ID del Usuario vendedor
+    @ManyToOne
+    @JoinColumn(name = "seller_id") // ✅ correcto
+    private User seller;  
 }
 
