@@ -93,4 +93,15 @@ public class ProductServiceImpl implements ProductService {
         productRepository.deleteById(id);
         return "Producto eliminado exitosamente";
     }
+
+    // DEVUELVE SOLO LOS PRODUCTOS DEL VENDEDOR ACTUAL
+    @Override
+    public java.util.List<Product> getProductsBySeller(String username) {
+        // 1. Buscamos al usuario logueado en la base de datos
+        var user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        // 2. Traemos solo sus productos usando el método nuevo del repositorio
+        return productRepository.findBySellerId(user.getId());
+    }
 }

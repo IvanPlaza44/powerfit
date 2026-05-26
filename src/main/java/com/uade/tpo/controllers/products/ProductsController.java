@@ -80,4 +80,11 @@ public class ProductsController {
         String message = productService.deleteProduct(id);
         return ResponseEntity.ok(message);
     }
+
+    @GetMapping("/seller")
+    public ResponseEntity<java.util.List<Product>> getMyProducts(Authentication authentication) {
+        // Usamos authentication.getName() que es más directo y ya tenés el import listo
+        String username = authentication.getName();
+        return ResponseEntity.ok(productService.getProductsBySeller(username));
+    }
 }

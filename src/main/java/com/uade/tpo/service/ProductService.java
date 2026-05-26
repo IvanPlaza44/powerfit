@@ -1,5 +1,6 @@
 package com.uade.tpo.service;
 
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,5 +23,9 @@ public interface ProductService {
     public Product updateProduct(Long id, ProductRequest productRequest) throws ProductNotFoundException;//Edita un producto ya creado
 
     public String deleteProduct(Long id) throws ProductNotFoundException; //Elimina un producto
+
+    List<Product> getProductsBySeller(String username);
+
+    
     
 }
