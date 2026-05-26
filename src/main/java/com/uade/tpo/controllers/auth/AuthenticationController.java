@@ -2,6 +2,7 @@ package com.uade.tpo.controllers.auth;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,5 +26,11 @@ public class AuthenticationController {
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
         return ResponseEntity.ok(service.authenticate(request));
+    }
+
+    @PutMapping("/upgrade-to-seller")
+    public ResponseEntity<AuthenticationResponse> upgradeToSeller(org.springframework.security.core.Authentication authentication) {
+        String username = authentication.getName();
+        return ResponseEntity.ok(service.upgradeUserToSeller(username));
     }
 }
