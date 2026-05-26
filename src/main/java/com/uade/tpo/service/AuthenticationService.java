@@ -11,4 +11,6 @@ public interface AuthenticationService {
 
     //Loguearse
     AuthenticationResponse authenticate(AuthenticationRequest request);
+
+    AuthenticationResponse upgradeUserToSeller(String username);
 }
