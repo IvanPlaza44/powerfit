@@ -7,6 +7,8 @@ import java.util.function.Function;
 import javax.crypto.SecretKey;
 import org.springframework.stereotype.Service;
 
+import com.uade.tpo.entity.User;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -28,11 +30,16 @@ public class JwtService {
     private String buildToken(
             UserDetails userDetails,
             long expiration) {
+
+        var user = (User) userDetails; 
+        // 👆 IMPORTANTE: castear a tu entidad real
+
         return Jwts
                 .builder()
-                .subject(userDetails.getUsername()) // prueba@hotmail.com
+                .subject(userDetails.getUsername())
+                .claim("userId", user.getId())
+                .claim("role", user.getRole().name())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .claim("Gisele", 1234567)
                 .expiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSecretKey())
                 .compact();
