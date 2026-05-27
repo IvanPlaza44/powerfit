@@ -18,7 +18,7 @@ public class CartController {
     List<CartDetail> details = cartService.getCartByUserId(userId);
 
     if (details.isEmpty()) {
-        return ResponseEntity.ok("El carrito está vacío");
+        return ResponseEntity.ok(details);
     }
 
     return ResponseEntity.ok(details);
