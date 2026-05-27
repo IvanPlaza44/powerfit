@@ -17,10 +17,6 @@ public class CartController {
     public ResponseEntity<?> getCart(@PathVariable Long userId) {
     List<CartDetail> details = cartService.getCartByUserId(userId);
 
-    if (details.isEmpty()) {
-        return ResponseEntity.ok(details);
-    }
-
     return ResponseEntity.ok(details);
 }   
 
