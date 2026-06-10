@@ -29,8 +29,8 @@ public class AuthenticationServiceImpl implements AuthenticationService{
         public AuthenticationResponse registerUser(RegisterRequest request) {
 
                 // Validamos si ya existe el username ya que es unico
-                if (repository.existsByUsername(request.getUserName())) {
-                throw new UserGenericException("El nombre de usuario " + request.getUserName() + " ya existe.");
+                if (repository.existsByUsername(request.getUsername())) {
+                throw new UserGenericException("El nombre de usuario " + request.getUsername() + " ya existe.");
                 }
 
                 // Validamos que el email ya esta en uso porque es unico.
@@ -50,7 +50,7 @@ public class AuthenticationServiceImpl implements AuthenticationService{
                         .email(request.getEmail())
                         .password(passwordEncoder.encode(request.getPassword()))
                         .role(userRole)
-                        .username(request.getUserName())
+                        .username(request.getUsername())
                         .build();
 
                 repository.save(user);
@@ -66,10 +66,10 @@ public class AuthenticationServiceImpl implements AuthenticationService{
         public AuthenticationResponse authenticate(AuthenticationRequest request) {
                 authenticationManager.authenticate(
                                 new UsernamePasswordAuthenticationToken(
-                                                request.getUserName(),
+                                                request.getUsername(),
                                                 request.getPassword()));
 
-                var user = repository.findByUsername(request.getUserName())
+                var user = repository.findByUsername(request.getUsername())
                                 .orElseThrow(() -> new UserGenericException("Usuario no encontrado"));
                 var jwtToken = jwtService.generateToken(user);
                 return AuthenticationResponse.builder()
