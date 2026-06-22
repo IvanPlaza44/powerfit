@@ -14,7 +14,7 @@ public interface CartService {
     List<CartDetail> addProduct(Long userId, CartProductRequest request);
 
     //Eliminar un producto del carrito de un usuario
-    void removeProduct(Long userId, Long productId);
+    List<CartDetail> removeProduct(Long userId, Long productId);
 
     //Editar la cantidad de un producto de un carrito de un usuario
     List<CartDetail> updateProductQuantity(Long userId, Long productId, Integer quantity);

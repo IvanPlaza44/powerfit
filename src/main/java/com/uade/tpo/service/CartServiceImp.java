@@ -87,7 +87,7 @@ public List<CartDetail> addProduct(Long userId, CartProductRequest request) {
 
     //Eliminar un producto del carrito de un usuario
     @Override
-    public void removeProduct(Long userId, Long productId) {
+    public List<CartDetail> removeProduct(Long userId, Long productId) {
 
         Cart cart = cartRepository.findByUser_Id(userId)
                 .orElseThrow(() -> new UserGenericException("Carrito no encontrado"));
@@ -96,6 +96,7 @@ public List<CartDetail> addProduct(Long userId, CartProductRequest request) {
                 .orElseThrow(() -> new UserGenericException("Producto no encontrado en carrito"));
 
         cartDetailRepository.delete(detail);
+        return cartDetailRepository.findByCart_Id(cart.getId());
     }
 
     //Editar la cantidad de un producto de un carrito de un usuario

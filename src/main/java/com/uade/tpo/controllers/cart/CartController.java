@@ -1,6 +1,7 @@
 package com.uade.tpo.controllers.cart;
 
 import com.uade.tpo.entity.CartDetail;
+import com.uade.tpo.repository.CartDetailRepository;
 import com.uade.tpo.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -34,10 +35,14 @@ public class CartController {
     }
 
     @DeleteMapping("/{userId}/products/{productId}")
-    public ResponseEntity<Void> removeProduct(@PathVariable Long userId, @PathVariable Long productId) {
-        cartService.removeProduct(userId, productId);
-        return ResponseEntity.noContent().build();
-    }
+public ResponseEntity<List<CartDetail>> removeProduct(
+        @PathVariable Long userId,
+        @PathVariable Long productId) {
+
+    return ResponseEntity.ok(
+        cartService.removeProduct(userId, productId)
+    );
+}
 
     @DeleteMapping("/{userId}")
     public ResponseEntity<String> clearCart(@PathVariable Long userId) {
