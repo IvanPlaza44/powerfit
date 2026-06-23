@@ -3,10 +3,12 @@ package com.uade.tpo.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
 import com.uade.tpo.entity.Favorite;
 import com.uade.tpo.entity.Product;
 import com.uade.tpo.entity.User;
+import jakarta.transaction.Transactional;
 
 @Repository
 public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
@@ -19,4 +21,8 @@ public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
 
     // Para borrar un producto específico de los favoritos de un usuario
     void deleteByUserAndProduct(User user, Product product);
+
+    @Transactional
+    @Modifying
+    void deleteByProduct(Product product);  //
 }

@@ -14,6 +14,9 @@ import com.uade.tpo.exceptions.ProductNotFoundException;
 import com.uade.tpo.repository.CategoryRepository;
 import com.uade.tpo.repository.ProductRepository;
 import com.uade.tpo.repository.UserRepository;
+import com.uade.tpo.repository.FavoriteRepository;
+import com.uade.tpo.repository.CartDetailRepository;
+import jakarta.transaction.Transactional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -26,6 +29,12 @@ public class ProductServiceImpl implements ProductService {
     
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private FavoriteRepository favoriteRepository;
+
+    @Autowired
+    private CartDetailRepository cartDetailRepository;
 
     //DEVOLVER TODOS LOS PRODUCTOS
     @Override
@@ -85,11 +94,19 @@ public class ProductServiceImpl implements ProductService {
     }
 
     //ELIMINA UN PRODUCTO POR EL ID
+    @Transactional
     @Override
     public String deleteProduct(Long id) throws ProductNotFoundException {
-        if (!productRepository.existsById(id)){
-            throw new ProductNotFoundException();
-        }
+        Product product = productRepository.findById(id)
+            .orElseThrow(ProductNotFoundException::new);
+
+        // 1. Borrar de favoritos
+        favoriteRepository.deleteByProduct(product);
+
+        // 2. Borrar del carrito
+        cartDetailRepository.deleteByProduct(product);
+
+        // 3. Borrar el producto
         productRepository.deleteById(id);
         return "Producto eliminado exitosamente";
     }

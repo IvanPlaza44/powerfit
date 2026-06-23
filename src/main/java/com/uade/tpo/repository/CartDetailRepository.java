@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
 
 import com.uade.tpo.entity.CartDetail;
+import com.uade.tpo.entity.Product;
 
 import jakarta.transaction.Transactional;
 
@@ -21,4 +22,8 @@ public interface CartDetailRepository extends JpaRepository<CartDetail, Long> {
     @Transactional
     @Modifying
     void deleteByCart_Id(Long cartId);
+
+    @Transactional
+    @Modifying
+    void deleteByProduct(Product product);  //
 }
