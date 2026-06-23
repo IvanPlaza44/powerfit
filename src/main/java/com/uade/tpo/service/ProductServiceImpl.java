@@ -89,7 +89,7 @@ public class ProductServiceImpl implements ProductService {
             product.setStock(request.getStock());
             product.setDiscount(request.getDiscount());
             product.setImage(request.getImage());
-            return productRepository.save(product);
+            product.setActive(request.getActive());            return productRepository.save(product);
         }).orElseThrow(ProductNotFoundException::new);
     }
 
