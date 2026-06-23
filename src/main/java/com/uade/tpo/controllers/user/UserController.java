@@ -2,6 +2,8 @@ package com.uade.tpo.controllers.user;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,4 +28,18 @@ public class UserController {
 
         return ResponseEntity.ok("Ahora sos vendedor 🎉");
     }
+    @GetMapping("/{userId}/points")
+    public ResponseEntity<Integer> getPoints(
+            @PathVariable Long userId
+    ) {
+        return ResponseEntity.ok(
+            userService.getPoints(userId)
+        );
+    }
+
+
+
+
+
+
 }

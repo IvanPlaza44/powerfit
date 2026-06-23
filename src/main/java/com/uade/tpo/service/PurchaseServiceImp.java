@@ -81,6 +81,15 @@ public class PurchaseServiceImp implements PurchaseService {
 
         purchase.setTotal(total);
 
+        // SUMAR PUNTOS
+        int puntosGanados = (int) (total / 100);
+
+        user.setPoints(
+            user.getPoints() + puntosGanados
+        );
+
+        userRepository.save(user);
+
         // limpiar carrito
         cart.getDetails().clear();
 
