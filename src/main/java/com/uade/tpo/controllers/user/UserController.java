@@ -5,6 +5,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,6 +36,21 @@ public class UserController {
         return ResponseEntity.ok(
             userService.getPoints(userId)
         );
+    }
+
+    @PostMapping("/{userId}/redeem")
+    public ResponseEntity<Integer> redeemPoints(
+            @PathVariable Long userId,
+            @RequestBody RedeemPointsRequest request
+    ) {
+
+        Integer remainingPoints =
+                userService.redeemPoints(
+                        userId,
+                        request.getPointsCost()
+                );
+
+        return ResponseEntity.ok(remainingPoints);
     }
 
 

@@ -37,4 +37,22 @@ public class UserServiceImp implements UserService {
 
         return user.getPoints();
     }
+
+
+    @Override
+    public Integer redeemPoints(Long userId, Integer pointsCost) {
+
+        User user = repository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        if (user.getPoints() < pointsCost) {
+            throw new RuntimeException("No tenés puntos suficientes");
+        }
+
+        user.setPoints(user.getPoints() - pointsCost);
+
+        repository.save(user);
+
+        return user.getPoints();
+    }
 }

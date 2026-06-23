@@ -4,5 +4,6 @@ public interface UserService {
 
     void becomeSeller(String username);
     Integer getPoints(Long userId);
+    Integer redeemPoints(Long userId, Integer pointsCost);
 
 }
