@@ -13,15 +13,15 @@ import com.uade.tpo.entity.Product;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
     
-    // Para cumplir con el requisito de no ver productos sin stock
-    @Query("select p from Product p where p.stock > 0")
+    // Para cumplir con el requisito de no ver productos sin stock y los INACTIVOS
+    @Query("select p from Product p where p.stock > 0 and p.active = true")
     Page<Product> findAvailableProducts(PageRequest pageable);
 
-    @Query("select p from Product p where p.name like %?1% and p.stock > 0")
+    @Query("select p from Product p where p.name like %?1% and p.stock > 0 and p.active = true")
     List<Product> findByName(String name);
 
     //  Filtrado por categoría
-    @Query("SELECT p FROM Product p WHERE p.category.id = ?1 AND p.stock > 0")
+    @Query("SELECT p FROM Product p WHERE p.category.id = ?1 AND p.stock > 0 AND p.active = true")
     Page<Product> findByCategoryId(Long categoryId, Pageable pageable);
 
     List<Product> findBySellerId(Long sellerId);

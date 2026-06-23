@@ -37,6 +37,9 @@ public class Product {
     @Column
     private int stock;
 
+    @Column(nullable = false)
+    private Boolean active = true;
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     @JsonIgnoreProperties("products")
@@ -47,13 +50,3 @@ public class Product {
     private User seller;  
 }
 
-/*{
-  "id": 1,
-  "name": "Producto A",
-  "description": "algo",
-  "price": 1500.0,
-  "stock": 10,
-  "categoryId": 1,
-  "sellerId": 1
-}
-  */

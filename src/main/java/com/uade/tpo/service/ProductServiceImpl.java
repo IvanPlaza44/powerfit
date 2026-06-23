@@ -89,7 +89,7 @@ public class ProductServiceImpl implements ProductService {
             product.setStock(request.getStock());
             product.setDiscount(request.getDiscount());
             product.setImage(request.getImage());
-            return productRepository.save(product);
+            product.setActive(request.getActive());            return productRepository.save(product);
         }).orElseThrow(ProductNotFoundException::new);
     }
 
@@ -97,18 +97,15 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     @Override
     public String deleteProduct(Long id) throws ProductNotFoundException {
+
         Product product = productRepository.findById(id)
             .orElseThrow(ProductNotFoundException::new);
 
-        // 1. Borrar de favoritos
-        favoriteRepository.deleteByProduct(product);
+        product.setActive(false);
 
-        // 2. Borrar del carrito
-        cartDetailRepository.deleteByProduct(product);
+        productRepository.save(product);
 
-        // 3. Borrar el producto
-        productRepository.deleteById(id);
-        return "Producto eliminado exitosamente";
+        return "Producto desactivado exitosamente";
     }
 
     // DEVUELVE SOLO LOS PRODUCTOS DEL VENDEDOR ACTUAL
