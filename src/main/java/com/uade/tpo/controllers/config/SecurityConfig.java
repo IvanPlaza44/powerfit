@@ -61,6 +61,10 @@ public class SecurityConfig {
                     .requestMatchers("/purchase/**").hasAnyAuthority(Role.BUYER.name(), Role.ADMIN.name()) 
                     .requestMatchers("/purchase-detail/**").hasAnyAuthority(Role.BUYER.name(), Role.ADMIN.name()) 
 
+                    //community
+                    .requestMatchers(org.springframework.http.HttpMethod.GET, "/community/**").permitAll()
+                    .requestMatchers("/community/**").authenticated()
+
                     // todo lo demás con autenticacion
                     .anyRequest().authenticated()
                 )
